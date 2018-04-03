@@ -1,1 +1,84 @@
-Adobe Advertising Cloud rocks
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>AdCloud Echo</title>
+  </head>
+  <body>
+  <div>
+  	Adobe Advertising Cloud Rocks
+  </div>
+  </body>
+
+  <script>
+function checkCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+(function() {
+
+	var cookieName = "_les";
+	var cookieValue = "visited";
+
+	if(checkCookie(cookieName) === ""){
+		console.log("Cookie not set.  Make the http call and then set the cookie.");
+		// var visitor =Visitor.getInstance("<IMS-ORG-ID>");
+
+
+		//TODO get the stitchID from the visitor API
+
+		// var ids = visitor.getCustomerIds(); // gives the marketing cloud id, the analytics id, and 
+		// var analyticsId = visitor.getAnalyticsVisitorID(callback, true); //THIS IS PROBABLY NOT NECESSARY
+		// var supplementalId = visitor.getSupplementalDataId();
+
+		//We don't have the visitorAPI working right now.  Just use some dummy values.
+		var ids = [1,2,3,4];
+		var analyticsId = 1234;
+		var supplementalId = 5678;
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+			      var d = new Date();
+			      // d.setTime(d.getTime() + (30 * 60 * 1000)); //Expires in 30 minutes ( 30 minutes * 60 seconds in a minute * 1000 milliseconds in a second)
+			      d.setTime(d.getTime() + (1 * 60 * 1000));
+			      var expires = "expires=" + d.toUTCString();
+			      document.cookie = cookieName + "=" + cookieValue + ";" + expires;
+			      console.log("We just set the cookie!: " + document.cookie);
+
+			}
+		};
+		// xhttp.open("POST", "<LAST_EVENT_SERVICE_URL>", true);
+		xhttp.open("POST", "http://www.mocky.io/v2/5ac296123300005000873129", true);
+		xhttp.setRequestHeader("Content-Type", "application/json");
+		xhttp.send(JSON.stringify(
+			{
+				customerIds:ids, 
+				analyticsId: analyticsId,
+				supplementalId: supplementalId
+			}
+		));
+	}
+	else {
+		console.log("Cookie already set!");
+	}	
+
+})()
+
+</script>
+</html>
+
+
+
+<!-- Michael Malmgren - Talk with him about the call to get the ims org id in the script.  Also, Nathan Price about this too. -->
