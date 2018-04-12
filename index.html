@@ -50,7 +50,8 @@
 				      alert("Response from the server: " + xhttp.response);
 				}
 			};
-			xhttp.open("POST", "http://localhost:8080/integration/api/v1.0/last_event", true);
+			// xhttp.open("POST", "http://localhost:8080/integration/api/v1.0/last_event", true);
+			xhttp.open("POST", "https://enterprise-test.efrontier.com/integration/api/v1.0/last_event", true);
 			xhttp.setRequestHeader("Content-Type", "application/json");
 			xhttp.send(JSON.stringify(
 				{
